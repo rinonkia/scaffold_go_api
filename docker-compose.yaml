@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: db-for-go
+
+    # MySQLの定数を指定
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --sql-mode=ONLY_FULL_GROUP_BY,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+    # コンテナ内で使用する環境変数の値を指定
+    environment:
+      MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: 'Asia/Tokyo'
+
+    # コンテナの3306番ポートを、ローカルの3306番ポートに繋げる
+    ports:
+      - "3306:3306"
+
+    # コンテナ内にあるMySQLに格納するデータを永続化させるために使用するボリュームを指定
+    volumes:
+      - db-volume:/var/lib/mysql
+
+volumes:
+  db-volume:
