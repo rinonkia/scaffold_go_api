@@ -30,12 +30,14 @@ func main() {
 	}
 	fmt.Println("connect to DB")
 
+	articleID := 1
 	const sqlStr = `
 		select *
-		from articles;
+		from articles
+		where article_id = ?;
 	`
 
-	rows, err := db.Query(sqlStr)
+	rows, err := db.Query(sqlStr, articleID)
 	if err != nil {
 		fmt.Println(err)
 		return
