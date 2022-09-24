@@ -30,20 +30,6 @@ func main() {
 	}
 	fmt.Println("connect to DB")
 
-	articleID := 1
-	const sqlStr = `
-		select *
-		from articles
-		where article_id = ?;
-	`
-
-	rows, err := db.Query(sqlStr, articleID)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer rows.Close()
-
 	// service層生成
 	s := services.NewMyAppService(db)
 
