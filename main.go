@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/rinonkia/go_api_tutorial/handlers"
+	"github.com/rinonkia/go_api_tutorial/controllers"
+	"github.com/rinonkia/go_api_tutorial/services"
 	"log"
 	"net/http"
 
@@ -43,13 +44,16 @@ func main() {
 	}
 	defer rows.Close()
 
+	s := services.NewMyAppService(db)
+	con := controllers.NewMyAppController(s)
+
 	r := mux.NewRouter()
-	r.HandleFunc("/hello", handlers.HelloHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article", handlers.PostArticleHandler).Methods(http.MethodPost)
-	r.HandleFunc("/article/list", handlers.ArticleListHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article/{id:[0-9]+}", handlers.ArticleDetailHandler).Methods(http.MethodGet)
-	r.HandleFunc("/article/nice", handlers.PostNiceHandler).Methods(http.MethodPost)
-	r.HandleFunc("/comment", handlers.PostCommentHandler).Methods(http.MethodPost)
+	r.HandleFunc("/hello", con.HelloHandler).Methods(http.MethodGet)
+	r.HandleFunc("/article", con.PostArticleHandler).Methods(http.MethodPost)
+	r.HandleFunc("/article/list", con.ArticleListHandler).Methods(http.MethodGet)
+	r.HandleFunc("/article/{id:[0-9]+}", con.ArticleDetailHandler).Methods(http.MethodGet)
+	r.HandleFunc("/article/nice", con.PostNiceHandler).Methods(http.MethodPost)
+	r.HandleFunc("/comment", con.PostCommentHandler).Methods(http.MethodPost)
 
 	log.Println("server start at port: 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
