@@ -3,30 +3,42 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/rinonkia/go_api_tutorial/controllers"
 	"github.com/rinonkia/go_api_tutorial/routers"
 	"github.com/rinonkia/go_api_tutorial/services"
 	"log"
 	"net/http"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
 
-	dbUser := "docker"
-	dbPassword := "docker"
-	dbDatabase := "sampledb"
-	dbConn := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_USER_PASSWORD")
+	dbDatabase := os.Getenv("DB_NAME")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPassword, dbHost, dbPort, dbDatabase)
 
 	db, err := sql.Open("mysql", dbConn)
+	fmt.Println(dbConn)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	defer db.Close()
 
 	if err := db.Ping(); err != nil {
 		fmt.Println(err)
+		return
 	}
 	fmt.Println("connect to DB")
 
