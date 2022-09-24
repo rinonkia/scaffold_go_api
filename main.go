@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rinonkia/go_api_tutorial/handlers"
-	"github.com/rinonkia/go_api_tutorial/models"
 	"log"
 	"net/http"
 
@@ -43,25 +42,6 @@ func main() {
 		return
 	}
 	defer rows.Close()
-
-	articleArray := make([]models.Article, 0)
-	for rows.Next() {
-		var article models.Article
-		var createdTime sql.NullTime
-		err := rows.Scan(&article.ID, &article.Title, &article.Contents, &article.UserName, &article.NiceNum, &createdTime)
-
-		if createdTime.Valid {
-			article.CreatedAt = createdTime.Time
-		}
-
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			articleArray = append(articleArray, article)
-		}
-	}
-
-	fmt.Printf("%+v\n", articleArray)
 
 	r := mux.NewRouter()
 	r.HandleFunc("/hello", handlers.HelloHandler).Methods(http.MethodGet)

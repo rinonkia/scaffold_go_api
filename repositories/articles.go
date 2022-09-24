@@ -53,7 +53,7 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 
 func SelectArticleDetail(db *sql.DB, id int) (models.Article, error) {
 	const sqlStr = `
-		select * from articles where article_id = ?
+		select * from articles where article_id = ?;
 		`
 
 	row := db.QueryRow(sqlStr, id)

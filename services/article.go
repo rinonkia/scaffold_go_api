@@ -11,7 +11,6 @@ func GetArticleService(articleID int) (models.Article, error) {
 		return models.Article{}, err
 	}
 	defer db.Close()
-
 	article, err := repositories.SelectArticleDetail(db, articleID)
 	if err != nil {
 		return models.Article{}, err
