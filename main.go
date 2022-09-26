@@ -4,9 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/joho/godotenv"
-	"github.com/rinonkia/go_api_tutorial/controllers"
-	"github.com/rinonkia/go_api_tutorial/routers"
-	"github.com/rinonkia/go_api_tutorial/services"
+	"github.com/rinonkia/go_api_tutorial/api"
 	"log"
 	"net/http"
 	"os"
@@ -42,15 +40,8 @@ func main() {
 	}
 	fmt.Println("connect to DB")
 
-	// service層生成
-	s := services.NewMyAppService(db)
-
-	// controller層生成
-	ArticleController := controllers.NewArticleController(s)
-	CommentController := controllers.NewCommentController(s)
-
-	// router層生成
-	r := routers.NewRouter(ArticleController, CommentController)
+	// router生成
+	r := api.NewRouter(db)
 
 	log.Println("server start at port: 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
