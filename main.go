@@ -46,10 +46,11 @@ func main() {
 	s := services.NewMyAppService(db)
 
 	// controller層生成
-	con := controllers.NewMyAppController(s)
+	ArticleController := controllers.NewArticleController(s)
+	CommentController := controllers.NewCommentController(s)
 
 	// router層生成
-	r := routers.NewRouter(con)
+	r := routers.NewRouter(ArticleController, CommentController)
 
 	log.Println("server start at port: 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))

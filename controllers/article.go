@@ -5,25 +5,20 @@ import (
 	"github.com/gorilla/mux"
 	services2 "github.com/rinonkia/go_api_tutorial/controllers/services"
 	"github.com/rinonkia/go_api_tutorial/models"
-	"io"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-type MyAppController struct {
-	service services2.MyAppServicer
+type ArticleController struct {
+	service services2.ArticleServicer
 }
 
-func NewMyAppController(s services2.MyAppServicer) *MyAppController {
-	return &MyAppController{service: s}
+func NewArticleController(s services2.ArticleServicer) *ArticleController {
+	return &ArticleController{service: s}
 }
 
-func (c *MyAppController) HelloHandler(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Hello, World!!")
-}
-
-func (c *MyAppController) PostArticleHandler(w http.ResponseWriter, req *http.Request) {
+func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.Request) {
 	var article models.Article
 	if err := json.NewDecoder(req.Body).Decode(&article); err != nil {
 		http.Error(w, "fail to decode json\n", http.StatusBadRequest)
@@ -41,7 +36,7 @@ func (c *MyAppController) PostArticleHandler(w http.ResponseWriter, req *http.Re
 	json.NewEncoder(w).Encode(newArticle)
 }
 
-func (c *MyAppController) ArticleListHandler(w http.ResponseWriter, req *http.Request) {
+func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.Request) {
 	queryMap := req.URL.Query()
 
 	var page int
@@ -67,7 +62,7 @@ func (c *MyAppController) ArticleListHandler(w http.ResponseWriter, req *http.Re
 	json.NewEncoder(w).Encode(articleList)
 }
 
-func (c *MyAppController) ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
+func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
 	articleID, err := strconv.Atoi(mux.Vars(req)["id"])
 	if err != nil {
 		http.Error(w, "Invalid query parameter", http.StatusBadRequest)
@@ -84,7 +79,7 @@ func (c *MyAppController) ArticleDetailHandler(w http.ResponseWriter, req *http.
 	json.NewEncoder(w).Encode(article)
 }
 
-func (c *MyAppController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
+func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
 	var article models.Article
 	if err := json.NewDecoder(req.Body).Decode(&article); err != nil {
 		http.Error(w, "fail to decode json.", http.StatusBadRequest)
@@ -100,22 +95,4 @@ func (c *MyAppController) PostNiceHandler(w http.ResponseWriter, req *http.Reque
 	}
 
 	json.NewEncoder(w).Encode(updatedArticle)
-}
-
-func (c *MyAppController) PostCommentHandler(w http.ResponseWriter, req *http.Request) {
-	var comment models.Comment
-	if err := json.NewDecoder(req.Body).Decode(&comment); err != nil {
-		http.Error(w, "fail to decode json.", http.StatusBadRequest)
-		log.Print(err)
-		return
-	}
-
-	newComment, err := c.service.PostCommentService(comment)
-	if err != nil {
-		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
-		log.Print(err)
-		return
-	}
-
-	json.NewEncoder(w).Encode(newComment)
 }
