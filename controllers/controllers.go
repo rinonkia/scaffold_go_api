@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	services2 "github.com/rinonkia/go_api_tutorial/controllers/services"
 	"github.com/rinonkia/go_api_tutorial/models"
-	"github.com/rinonkia/go_api_tutorial/services"
 	"io"
 	"log"
 	"net/http"
@@ -12,10 +12,10 @@ import (
 )
 
 type MyAppController struct {
-	service *services.MyAppService
+	service services2.MyAppServicer
 }
 
-func NewMyAppController(s *services.MyAppService) *MyAppController {
+func NewMyAppController(s services2.MyAppServicer) *MyAppController {
 	return &MyAppController{service: s}
 }
 
