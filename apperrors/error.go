@@ -7,7 +7,7 @@ type MyAppError struct {
 }
 
 func (myErr *MyAppError) Error() string {
-	return myErr.Message
+	return myErr.Err.Error()
 }
 
 func (myErr *MyAppError) Unwrap() error {
