@@ -2,17 +2,17 @@ package controllers
 
 import (
 	"encoding/json"
-	services2 "github.com/rinonkia/go_api_tutorial/controllers/services"
 	"github.com/rinonkia/go_api_tutorial/models"
+	"github.com/rinonkia/go_api_tutorial/services/interfaces"
 	"log"
 	"net/http"
 )
 
 type CommentController struct {
-	service services2.CommentServicer
+	service interfaces.CommentService
 }
 
-func NewCommentController(s services2.CommentServicer) *CommentController {
+func NewCommentController(s interfaces.CommentService) *CommentController {
 	return &CommentController{service: s}
 }
 

@@ -3,18 +3,18 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	services2 "github.com/rinonkia/go_api_tutorial/controllers/services"
 	"github.com/rinonkia/go_api_tutorial/models"
+	"github.com/rinonkia/go_api_tutorial/services/interfaces"
 	"log"
 	"net/http"
 	"strconv"
 )
 
 type ArticleController struct {
-	service services2.ArticleServicer
+	service interfaces.ArticleService
 }
 
-func NewArticleController(s services2.ArticleServicer) *ArticleController {
+func NewArticleController(s interfaces.ArticleService) *ArticleController {
 	return &ArticleController{service: s}
 }
 

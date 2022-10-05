@@ -3,21 +3,21 @@ package services
 import (
 	"github.com/rinonkia/go_api_tutorial/apperrors"
 	"github.com/rinonkia/go_api_tutorial/models"
-	"github.com/rinonkia/go_api_tutorial/repositories"
+	"github.com/rinonkia/go_api_tutorial/repositories/interfaces"
 )
 
 type ArticleService struct {
-	articleRepository repositories.ArticleRepository
-	commentRepository repositories.CommentRepository
+	articleRepository interfaces.ArticleRepository
+	commentRepository interfaces.CommentRepository
 }
 
 func NewArticleService(
-	article *repositories.ArticleRepository,
-	comment *repositories.CommentRepository,
+	article interfaces.ArticleRepository,
+	comment interfaces.CommentRepository,
 ) *ArticleService {
 	return &ArticleService{
-		articleRepository: *article,
-		commentRepository: *comment,
+		articleRepository: article,
+		commentRepository: comment,
 	}
 }
 
