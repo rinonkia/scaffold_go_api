@@ -5,8 +5,15 @@ import (
 	"github.com/rinonkia/go_api_tutorial/models"
 )
 
-// 新規投稿をDBにinsertする関数
-func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
+type CommentRepository struct {
+	db *sql.DB
+}
+
+func NewCommentRepository(db *sql.DB) *CommentRepository {
+	return &CommentRepository{db: db}
+}
+
+func (r *CommentRepository) InsertComment(comment models.Comment) (models.Comment, error) {
 	const sqlStr = `
 		insert into comments (article_id, message, created_at) values
 		(?, ?, now());
@@ -14,7 +21,7 @@ func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 	var newComment models.Comment
 	newComment.ArticleID, newComment.Message = comment.ArticleID, comment.Message
 
-	result, err := db.Exec(sqlStr, comment.ArticleID, comment.Message)
+	result, err := r.db.Exec(sqlStr, comment.ArticleID, comment.Message)
 	if err != nil {
 		return models.Comment{}, err
 	}
@@ -25,15 +32,14 @@ func InsertComment(db *sql.DB, comment models.Comment) (models.Comment, error) {
 	return newComment, nil
 }
 
-// 指定IDの記事についたコメント一覧を取得する関数
-func SelectCommentList(db *sql.DB, articleID int) ([]models.Comment, error) {
+func (r *CommentRepository) SelectCommentList(articleID int) ([]models.Comment, error) {
 	const sqlStr = `
 		select *
 		from comments
 		where article_id = ?;
 	`
 
-	rows, err := db.Query(sqlStr, articleID)
+	rows, err := r.db.Query(sqlStr, articleID)
 	if err != nil {
 		return nil, err
 	}

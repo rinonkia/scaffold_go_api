@@ -4,14 +4,18 @@ import (
 	"database/sql"
 	"github.com/gorilla/mux"
 	"github.com/rinonkia/go_api_tutorial/controllers"
+	"github.com/rinonkia/go_api_tutorial/repositories"
 	"github.com/rinonkia/go_api_tutorial/services"
 	"net/http"
 )
 
 func NewRouter(db *sql.DB) *mux.Router {
-	service := services.NewMyAppService(db)
-	article := controllers.NewArticleController(service)
-	comment := controllers.NewCommentController(service)
+	articleRepository := repositories.NewArticleRepository(db)
+	commentRepository := repositories.NewCommentRepository(db)
+	articleService := services.NewArticleService(articleRepository, commentRepository)
+	commentService := services.NewCommentService(commentRepository)
+	article := controllers.NewArticleController(articleService)
+	comment := controllers.NewCommentController(commentService)
 	r := mux.NewRouter()
 
 	r.HandleFunc("/article", article.PostArticleHandler).Methods(http.MethodPost)

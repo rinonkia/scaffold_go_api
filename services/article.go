@@ -6,13 +6,28 @@ import (
 	"github.com/rinonkia/go_api_tutorial/repositories"
 )
 
-func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) {
-	article, err := repositories.SelectArticleDetail(s.db, articleID)
+type ArticleService struct {
+	articleRepository repositories.ArticleRepository
+	commentRepository repositories.CommentRepository
+}
+
+func NewArticleService(
+	article *repositories.ArticleRepository,
+	comment *repositories.CommentRepository,
+) *ArticleService {
+	return &ArticleService{
+		articleRepository: *article,
+		commentRepository: *comment,
+	}
+}
+
+func (s *ArticleService) GetArticleService(articleID int) (models.Article, error) {
+	article, err := s.articleRepository.SelectArticleDetail(articleID)
 	if err != nil {
 		return models.Article{}, err
 	}
 
-	commentList, err := repositories.SelectCommentList(s.db, articleID)
+	commentList, err := s.commentRepository.SelectCommentList(articleID)
 	if err != nil {
 		return models.Article{}, err
 	}
@@ -21,8 +36,8 @@ func (s *MyAppService) GetArticleService(articleID int) (models.Article, error) 
 	return article, nil
 }
 
-func (s *MyAppService) PostArticleService(article models.Article) (models.Article, error) {
-	newArticle, err := repositories.InsertArticle(s.db, article)
+func (s *ArticleService) PostArticleService(article models.Article) (models.Article, error) {
+	newArticle, err := s.articleRepository.InsertArticle(article)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
 		return models.Article{}, err
@@ -31,8 +46,8 @@ func (s *MyAppService) PostArticleService(article models.Article) (models.Articl
 	return newArticle, nil
 }
 
-func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error) {
-	articleList, err := repositories.SelectArticleList(s.db, page)
+func (s *ArticleService) GetArticleListService(page int) ([]models.Article, error) {
+	articleList, err := s.articleRepository.SelectArticleList(page)
 	if err != nil {
 		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
 		return []models.Article{}, err
@@ -46,9 +61,9 @@ func (s *MyAppService) GetArticleListService(page int) ([]models.Article, error)
 	return articleList, nil
 }
 
-func (s *MyAppService) PostNiceService(article models.Article) (models.Article, error) {
+func (s *ArticleService) PostNiceService(article models.Article) (models.Article, error) {
 
-	err := repositories.UpdateNiceNum(s.db, article.ID)
+	err := s.articleRepository.UpdateNiceNum(article.ID)
 	if err != nil {
 		return models.Article{}, err
 	}
