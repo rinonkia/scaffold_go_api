@@ -10,10 +10,15 @@ import (
 )
 
 func NewRouter(db *sql.DB) *mux.Router {
+	// repository
 	articleRepository := repositories.NewArticleRepository(db)
 	commentRepository := repositories.NewCommentRepository(db)
+
+	// service
 	articleService := services.NewArticleService(articleRepository, commentRepository)
 	commentService := services.NewCommentService(commentRepository)
+
+	// controller
 	article := controllers.NewArticleController(articleService)
 	comment := controllers.NewCommentController(commentService)
 	r := mux.NewRouter()
