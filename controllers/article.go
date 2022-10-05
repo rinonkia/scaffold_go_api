@@ -11,11 +11,11 @@ import (
 )
 
 type ArticleController struct {
-	service interfaces.ArticleService
+	article interfaces.ArticleService
 }
 
 func NewArticleController(s interfaces.ArticleService) *ArticleController {
-	return &ArticleController{service: s}
+	return &ArticleController{article: s}
 }
 
 func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.Request) {
@@ -26,7 +26,7 @@ func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	newArticle, err := c.service.PostArticleService(article)
+	newArticle, err := c.article.PostArticleService(article)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
@@ -52,7 +52,7 @@ func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.
 		page = 1
 	}
 
-	articleList, err := c.service.GetArticleListService(page)
+	articleList, err := c.article.GetArticleListService(page)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
@@ -70,7 +70,7 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	article, err := c.service.GetArticleService(articleID)
+	article, err := c.article.GetArticleService(articleID)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
@@ -87,7 +87,7 @@ func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	updatedArticle, err := c.service.PostNiceService(article)
+	updatedArticle, err := c.article.PostNiceService(article)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)

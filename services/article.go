@@ -7,8 +7,8 @@ import (
 )
 
 type ArticleService struct {
-	articleRepository interfaces.ArticleRepository
-	commentRepository interfaces.CommentRepository
+	article interfaces.ArticleRepository
+	comment interfaces.CommentRepository
 }
 
 func NewArticleService(
@@ -16,18 +16,18 @@ func NewArticleService(
 	comment interfaces.CommentRepository,
 ) *ArticleService {
 	return &ArticleService{
-		articleRepository: article,
-		commentRepository: comment,
+		article: article,
+		comment: comment,
 	}
 }
 
 func (s *ArticleService) GetArticleService(articleID int) (models.Article, error) {
-	article, err := s.articleRepository.SelectArticleDetail(articleID)
+	article, err := s.article.SelectArticleDetail(articleID)
 	if err != nil {
 		return models.Article{}, err
 	}
 
-	commentList, err := s.commentRepository.SelectCommentList(articleID)
+	commentList, err := s.comment.SelectCommentList(articleID)
 	if err != nil {
 		return models.Article{}, err
 	}
@@ -37,7 +37,7 @@ func (s *ArticleService) GetArticleService(articleID int) (models.Article, error
 }
 
 func (s *ArticleService) PostArticleService(article models.Article) (models.Article, error) {
-	newArticle, err := s.articleRepository.InsertArticle(article)
+	newArticle, err := s.article.InsertArticle(article)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
 		return models.Article{}, err
@@ -47,7 +47,7 @@ func (s *ArticleService) PostArticleService(article models.Article) (models.Arti
 }
 
 func (s *ArticleService) GetArticleListService(page int) ([]models.Article, error) {
-	articleList, err := s.articleRepository.SelectArticleList(page)
+	articleList, err := s.article.SelectArticleList(page)
 	if err != nil {
 		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
 		return []models.Article{}, err
@@ -63,7 +63,7 @@ func (s *ArticleService) GetArticleListService(page int) ([]models.Article, erro
 
 func (s *ArticleService) PostNiceService(article models.Article) (models.Article, error) {
 
-	err := s.articleRepository.UpdateNiceNum(article.ID)
+	err := s.article.UpdateNiceNum(article.ID)
 	if err != nil {
 		return models.Article{}, err
 	}

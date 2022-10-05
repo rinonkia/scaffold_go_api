@@ -7,14 +7,14 @@ import (
 )
 
 type CommentService struct {
-	repository interfaces.CommentRepository
+	comment interfaces.CommentRepository
 }
 
-func NewCommentService(repository interfaces.CommentRepository) *CommentService {
-	return &CommentService{repository: repository}
+func NewCommentService(comment interfaces.CommentRepository) *CommentService {
+	return &CommentService{comment: comment}
 }
 func (s *CommentService) PostCommentService(comment models.Comment) (models.Comment, error) {
-	newComment, err := s.repository.InsertComment(comment)
+	newComment, err := s.comment.InsertComment(comment)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
 		return models.Comment{}, err

@@ -9,11 +9,11 @@ import (
 )
 
 type CommentController struct {
-	service interfaces.CommentService
+	comment interfaces.CommentService
 }
 
 func NewCommentController(s interfaces.CommentService) *CommentController {
-	return &CommentController{service: s}
+	return &CommentController{comment: s}
 }
 
 func (c *CommentController) PostCommentHandler(w http.ResponseWriter, req *http.Request) {
@@ -24,7 +24,7 @@ func (c *CommentController) PostCommentHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	newComment, err := c.service.PostCommentService(comment)
+	newComment, err := c.comment.PostCommentService(comment)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
