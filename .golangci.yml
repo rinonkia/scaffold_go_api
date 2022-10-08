@@ -11,4 +11,15 @@ issues:
   fix: true
 
 linters:
+  # enable-allは非推奨だが、lintの種類の学習のため設定している
   enable-all: true
+  disable:
+    # enforcing empty lines at the right places.
+    - wsl
+    # needs that return with no blank line before
+    - nlreturn
+    # parameter/variable name is too short for the scope of its usage
+    - varnamelen
+    # need to wrap error when returning external package
+    # 利用したいが、errorハンドリングについて色々考える必要があるため一旦disableにしている
+    - wrapcheck
