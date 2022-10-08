@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var testDB *sql.DB
+var testDB *sql.DB //nolint: gochecknoglobals
 
 func setup() error {
 	dbUser := "docker"
@@ -31,8 +31,7 @@ func tearDown() {
 }
 
 func TestMain(m *testing.M) {
-	err := setup()
-	if err != nil {
+	if err := setup(); err != nil {
 		os.Exit(1)
 	}
 

@@ -3,7 +3,7 @@ package repositories
 import (
 	"context"
 	"database/sql"
-	"fmt"
+	"log"
 
 	"github.com/rinonkia/go_api_tutorial/app/models"
 	"github.com/volatiletech/sqlboiler/v4/boil"
@@ -27,7 +27,7 @@ func (r *ArticleRepository) SelectArticleList(ctx context.Context, page int) ([]
 	articles, err := models.Articles().All(ctx, r.db)
 
 	// TODO: pagination
-	fmt.Printf("pagination: %d, page %d", articleNumPerPage, page)
+	log.Printf("pagination: %d, page %d", articleNumPerPage, page)
 
 	if err != nil {
 		return nil, err

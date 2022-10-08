@@ -26,18 +26,18 @@ func main() {
 	dbConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPassword, dbHost, dbPort, dbDatabase)
 
 	db, err := sql.Open("mysql", dbConn)
-	fmt.Println(dbConn)
+	log.Println(dbConn)
 	if err != nil {
-		fmt.Println(err)
+		log.Print(err)
 		return
 	}
 	defer db.Close()
 
 	if err := db.Ping(); err != nil {
-		fmt.Println(err)
+		log.Print(err)
 		return
 	}
-	fmt.Println("connect to DB")
+	log.Println("connect to DB")
 
 	// router生成
 	r := api.NewRouter(db)
