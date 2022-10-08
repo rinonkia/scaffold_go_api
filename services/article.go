@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 
-	"github.com/rinonkia/go_api_tutorial/app/models"
-	"github.com/rinonkia/go_api_tutorial/apperrors"
-	"github.com/rinonkia/go_api_tutorial/repositories/interfaces"
+	"github.com/rinonkia/scaffold_golang/app/models"
+	"github.com/rinonkia/scaffold_golang/apperrors"
+	"github.com/rinonkia/scaffold_golang/repositories/interfaces"
 )
 
 type ArticleService struct {

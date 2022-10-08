@@ -1,4 +1,4 @@
-module github.com/rinonkia/go_api_tutorial
+module github.com/rinonkia/scaffold_golang
 
 go 1.19
 

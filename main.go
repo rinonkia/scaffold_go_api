@@ -9,7 +9,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	"github.com/rinonkia/go_api_tutorial/api"
+	"github.com/rinonkia/scaffold_golang/api"
 )
 
 func main() {

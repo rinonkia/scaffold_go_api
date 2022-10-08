@@ -3,7 +3,7 @@ package interfaces
 import (
 	"context"
 
-	"github.com/rinonkia/go_api_tutorial/app/models"
+	"github.com/rinonkia/scaffold_golang/app/models"
 )
 
 type CommentRepository interface {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/rinonkia/go_api_tutorial/app/models"
+	"github.com/rinonkia/scaffold_golang/app/models"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 

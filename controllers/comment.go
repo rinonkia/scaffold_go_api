@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/rinonkia/go_api_tutorial/app/models"
-	"github.com/rinonkia/go_api_tutorial/services/interfaces"
+	"github.com/rinonkia/scaffold_golang/app/models"
+	"github.com/rinonkia/scaffold_golang/services/interfaces"
 )
 
 type CommentController struct {
