@@ -33,5 +33,7 @@ func (c *CommentController) PostCommentHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	json.NewEncoder(w).Encode("OK")
+	if err = json.NewEncoder(w).Encode("OK"); err != nil {
+		http.Error(w, "fail to encode\n", http.StatusInternalServerError)
+	}
 }

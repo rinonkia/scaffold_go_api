@@ -35,7 +35,9 @@ func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	json.NewEncoder(w).Encode("OK")
+	if err = json.NewEncoder(w).Encode("OK"); err != nil {
+		http.Error(w, "fail to encode\n", http.StatusInternalServerError)
+	}
 }
 
 func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.Request) {
@@ -61,7 +63,9 @@ func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	json.NewEncoder(w).Encode(articleList)
+	if err = json.NewEncoder(w).Encode(articleList); err != nil {
+		http.Error(w, "fail to encode\n", http.StatusInternalServerError)
+	}
 }
 
 func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
@@ -78,7 +82,10 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 		log.Print(err)
 		return
 	}
-	json.NewEncoder(w).Encode(article)
+
+	if err = json.NewEncoder(w).Encode(article); err != nil {
+		http.Error(w, "fail to encode\n", http.StatusInternalServerError)
+	}
 }
 
 func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
@@ -99,5 +106,7 @@ func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	json.NewEncoder(w).Encode(updatedArticle)
+	if err = json.NewEncoder(w).Encode(updatedArticle); err != nil {
+		http.Error(w, "fail to encode\n", http.StatusInternalServerError)
+	}
 }
