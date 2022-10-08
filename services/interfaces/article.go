@@ -1,10 +1,13 @@
 package interfaces
 
-import "github.com/rinonkia/go_api_tutorial/models"
+import (
+	"context"
+	"github.com/rinonkia/go_api_tutorial/app/models"
+)
 
 type ArticleService interface {
-	PostArticleService(article models.Article) (models.Article, error)
-	GetArticleService(articleID int) (models.Article, error)
-	GetArticleListService(page int) ([]models.Article, error)
-	PostNiceService(article models.Article) (models.Article, error)
+	PostArticleService(ctx context.Context, article models.Article) error
+	GetArticleService(ctx context.Context, articleID int) (*models.Article, error)
+	GetArticleListService(ctx context.Context, page int) ([]*models.Article, error)
+	PostNiceService(ctx context.Context, articleID int) (*models.Article, error)
 }

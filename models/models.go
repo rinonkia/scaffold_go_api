@@ -1,15 +1,18 @@
 package models
 
-import "time"
+import (
+	"github.com/rinonkia/go_api_tutorial/app/models"
+	"time"
+)
 
 type Article struct {
-	ID          int       `json:"id"`
-	Title       string    `json:"title"`
-	Contents    string    `json:"contents"`
-	UserName    string    `json:"user_name"`
-	NiceNum     int       `json:"nice_num"`
-	CommentList []Comment `json:"comment_list"`
-	CreatedAt   time.Time `json:"created_at"`
+	ID          int               `json:"id"`
+	Title       string            `json:"title"`
+	Contents    string            `json:"contents"`
+	UserName    string            `json:"user_name"`
+	NiceNum     int               `json:"nice_num"`
+	CommentList []*models.Comment `json:"comment_list"`
+	CreatedAt   time.Time         `json:"created_at"`
 }
 
 type Comment struct {

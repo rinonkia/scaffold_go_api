@@ -1,8 +1,10 @@
 package repositories
 
 import (
+	"context"
 	"database/sql"
-	"github.com/rinonkia/go_api_tutorial/models"
+	"github.com/rinonkia/go_api_tutorial/app/models"
+	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 type CommentRepository struct {
@@ -13,50 +15,15 @@ func NewCommentRepository(db *sql.DB) *CommentRepository {
 	return &CommentRepository{db: db}
 }
 
-func (r *CommentRepository) InsertComment(comment models.Comment) (models.Comment, error) {
-	const sqlStr = `
-		insert into comments (article_id, message, created_at) values
-		(?, ?, now());
-	`
-	var newComment models.Comment
-	newComment.ArticleID, newComment.Message = comment.ArticleID, comment.Message
-
-	result, err := r.db.Exec(sqlStr, comment.ArticleID, comment.Message)
-	if err != nil {
-		return models.Comment{}, err
-	}
-
-	id, _ := result.LastInsertId()
-	newComment.CommentID = int(id)
-
-	return newComment, nil
+func (r *CommentRepository) InsertComment(ctx context.Context, comment models.Comment) error {
+	return comment.Insert(ctx, r.db, boil.Infer())
 }
 
-func (r *CommentRepository) SelectCommentList(articleID int) ([]models.Comment, error) {
-	const sqlStr = `
-		select *
-		from comments
-		where article_id = ?;
-	`
-
-	rows, err := r.db.Query(sqlStr, articleID)
+func (r *CommentRepository) SelectCommentList(ctx context.Context, articleID int) ([]*models.Comment, error) {
+	comments, err := models.Comments(models.CommentWhere.ArticleID.EQ(uint(articleID))).All(ctx, r.db)
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
 
-	commentArray := make([]models.Comment, 0)
-	for rows.Next() {
-		var comment models.Comment
-		var createdTime sql.NullTime
-		rows.Scan(&comment.CommentID, &comment.ArticleID, &comment.Message, &createdTime)
-
-		if createdTime.Valid {
-			comment.CreatedAt = createdTime.Time
-		}
-
-		commentArray = append(commentArray, comment)
-	}
-
-	return commentArray, nil
+	return comments, nil
 }

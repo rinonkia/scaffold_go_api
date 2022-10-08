@@ -1,7 +1,10 @@
 package interfaces
 
-import "github.com/rinonkia/go_api_tutorial/models"
+import (
+	"context"
+	"github.com/rinonkia/go_api_tutorial/app/models"
+)
 
 type CommentService interface {
-	PostCommentService(comment models.Comment) (models.Comment, error)
+	PostCommentService(ctx context.Context, comment models.Comment) error
 }

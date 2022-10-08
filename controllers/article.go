@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/rinonkia/go_api_tutorial/models"
+	"github.com/rinonkia/go_api_tutorial/app/models"
 	"github.com/rinonkia/go_api_tutorial/services/interfaces"
 	"log"
 	"net/http"
@@ -26,14 +28,14 @@ func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.
 		return
 	}
 
-	newArticle, err := c.article.PostArticleService(article)
+	err := c.article.PostArticleService(context.Background(), article)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(newArticle)
+	json.NewEncoder(w).Encode("OK")
 }
 
 func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.Request) {
@@ -52,7 +54,7 @@ func (c *ArticleController) ArticleListHandler(w http.ResponseWriter, req *http.
 		page = 1
 	}
 
-	articleList, err := c.article.GetArticleListService(page)
+	articleList, err := c.article.GetArticleListService(context.Background(), page)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
@@ -70,7 +72,7 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 		return
 	}
 
-	article, err := c.article.GetArticleService(articleID)
+	article, err := c.article.GetArticleService(context.Background(), articleID)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)
@@ -80,14 +82,17 @@ func (c *ArticleController) ArticleDetailHandler(w http.ResponseWriter, req *htt
 }
 
 func (c *ArticleController) PostNiceHandler(w http.ResponseWriter, req *http.Request) {
-	var article models.Article
-	if err := json.NewDecoder(req.Body).Decode(&article); err != nil {
+	// TODO: PDO実装
+	var articleID int
+	fmt.Printf("%T\n", req.Body)
+	fmt.Printf("%s\n", req.Body)
+	if err := json.NewDecoder(req.Body).Decode(&articleID); err != nil {
 		http.Error(w, "fail to decode json.", http.StatusBadRequest)
 		log.Print(err)
 		return
 	}
 
-	updatedArticle, err := c.article.PostNiceService(article)
+	updatedArticle, err := c.article.PostNiceService(context.Background(), articleID)
 	if err != nil {
 		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
 		log.Print(err)

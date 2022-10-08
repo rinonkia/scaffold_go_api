@@ -1,8 +1,9 @@
 package services
 
 import (
+	"context"
+	"github.com/rinonkia/go_api_tutorial/app/models"
 	"github.com/rinonkia/go_api_tutorial/apperrors"
-	"github.com/rinonkia/go_api_tutorial/models"
 	"github.com/rinonkia/go_api_tutorial/repositories/interfaces"
 )
 
@@ -21,36 +22,36 @@ func NewArticleService(
 	}
 }
 
-func (s *ArticleService) GetArticleService(articleID int) (models.Article, error) {
-	article, err := s.article.SelectArticleDetail(articleID)
+func (s *ArticleService) GetArticleService(ctx context.Context, articleID int) (*models.Article, error) {
+	article, err := s.article.SelectArticleDetail(ctx, articleID)
 	if err != nil {
-		return models.Article{}, err
+		return nil, err
 	}
 
-	commentList, err := s.comment.SelectCommentList(articleID)
-	if err != nil {
-		return models.Article{}, err
-	}
-	article.CommentList = append(article.CommentList, commentList...)
+	// commentList, err := s.comment.SelectCommentList(ctx, articleID)
+	// if err != nil {
+	// 	return models.Article{}, err
+	// }
+	// article.CommentList = append(article.CommentList, commentList...)
 
 	return article, nil
 }
 
-func (s *ArticleService) PostArticleService(article models.Article) (models.Article, error) {
-	newArticle, err := s.article.InsertArticle(article)
+func (s *ArticleService) PostArticleService(ctx context.Context, article models.Article) error {
+	err := s.article.InsertArticle(ctx, article)
 	if err != nil {
 		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
-		return models.Article{}, err
+		return err
 	}
 
-	return newArticle, nil
+	return nil
 }
 
-func (s *ArticleService) GetArticleListService(page int) ([]models.Article, error) {
-	articleList, err := s.article.SelectArticleList(page)
+func (s *ArticleService) GetArticleListService(ctx context.Context, page int) ([]*models.Article, error) {
+	articleList, err := s.article.SelectArticleList(ctx, page)
 	if err != nil {
 		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
-		return []models.Article{}, err
+		return nil, err
 	}
 
 	if len(articleList) == 0 {
@@ -61,19 +62,12 @@ func (s *ArticleService) GetArticleListService(page int) ([]models.Article, erro
 	return articleList, nil
 }
 
-func (s *ArticleService) PostNiceService(article models.Article) (models.Article, error) {
+func (s *ArticleService) PostNiceService(ctx context.Context, articleID int) (*models.Article, error) {
 
-	err := s.article.UpdateNiceNum(article.ID)
+	article, err := s.article.UpdateNiceNum(ctx, articleID)
 	if err != nil {
-		return models.Article{}, err
+		return nil, err
 	}
 
-	return models.Article{
-		ID:        article.ID,
-		Title:     article.Title,
-		Contents:  article.Contents,
-		UserName:  article.UserName,
-		NiceNum:   article.NiceNum + 1,
-		CreatedAt: article.CreatedAt,
-	}, nil
+	return article, nil
 }

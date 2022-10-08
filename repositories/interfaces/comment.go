@@ -1,8 +1,11 @@
 package interfaces
 
-import "github.com/rinonkia/go_api_tutorial/models"
+import (
+	"context"
+	"github.com/rinonkia/go_api_tutorial/app/models"
+)
 
 type CommentRepository interface {
-	InsertComment(comment models.Comment) (models.Comment, error)
-	SelectCommentList(articleID int) ([]models.Comment, error)
+	InsertComment(ctx context.Context, comment models.Comment) error
+	SelectCommentList(ctx context.Context, articleID int) ([]*models.Comment, error)
 }
