@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/rinonkia/scaffold_golang/controllers"
-	"github.com/rinonkia/scaffold_golang/repositories"
-	"github.com/rinonkia/scaffold_golang/services"
+	"github.com/rinonkia/scaffold_go_api/controllers"
+	"github.com/rinonkia/scaffold_go_api/repositories"
+	"github.com/rinonkia/scaffold_go_api/services"
 )
 
 func NewRouter(db *sql.DB) *mux.Router {

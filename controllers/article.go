@@ -8,8 +8,8 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/rinonkia/scaffold_golang/app/models"
-	"github.com/rinonkia/scaffold_golang/services/interfaces"
+	"github.com/rinonkia/scaffold_go_api/app/models"
+	"github.com/rinonkia/scaffold_go_api/services/interfaces"
 )
 
 type ArticleController struct {

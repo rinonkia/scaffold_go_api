@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/rinonkia/scaffold_golang/app/models"
+	"github.com/rinonkia/scaffold_go_api/app/models"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 

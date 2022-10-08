@@ -3,7 +3,7 @@ package interfaces
 import (
 	"context"
 
-	"github.com/rinonkia/scaffold_golang/app/models"
+	"github.com/rinonkia/scaffold_go_api/app/models"
 )
 
 type ArticleService interface {

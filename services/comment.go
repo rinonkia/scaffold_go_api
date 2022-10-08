@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 
-	"github.com/rinonkia/scaffold_golang/app/models"
-	"github.com/rinonkia/scaffold_golang/apperrors"
-	"github.com/rinonkia/scaffold_golang/repositories/interfaces"
+	"github.com/rinonkia/scaffold_go_api/app/models"
+	"github.com/rinonkia/scaffold_go_api/apperrors"
+	"github.com/rinonkia/scaffold_go_api/repositories/interfaces"
 )
 
 type CommentService struct {
