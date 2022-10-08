@@ -3,10 +3,11 @@ package controllers
 import (
 	"context"
 	"encoding/json"
-	"github.com/rinonkia/go_api_tutorial/app/models"
-	"github.com/rinonkia/go_api_tutorial/services/interfaces"
 	"log"
 	"net/http"
+
+	"github.com/rinonkia/go_api_tutorial/app/models"
+	"github.com/rinonkia/go_api_tutorial/services/interfaces"
 )
 
 type CommentController struct {

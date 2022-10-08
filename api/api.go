@@ -2,11 +2,12 @@ package api
 
 import (
 	"database/sql"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/rinonkia/go_api_tutorial/controllers"
 	"github.com/rinonkia/go_api_tutorial/repositories"
 	"github.com/rinonkia/go_api_tutorial/services"
-	"net/http"
 )
 
 func NewRouter(db *sql.DB) *mux.Router {

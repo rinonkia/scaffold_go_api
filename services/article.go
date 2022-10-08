@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+
 	"github.com/rinonkia/go_api_tutorial/app/models"
 	"github.com/rinonkia/go_api_tutorial/apperrors"
 	"github.com/rinonkia/go_api_tutorial/repositories/interfaces"
@@ -63,7 +64,6 @@ func (s *ArticleService) GetArticleListService(ctx context.Context, page int) ([
 }
 
 func (s *ArticleService) PostNiceService(ctx context.Context, articleID int) (*models.Article, error) {
-
 	article, err := s.article.UpdateNiceNum(ctx, articleID)
 	if err != nil {
 		return nil, err

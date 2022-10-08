@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/rinonkia/go_api_tutorial/app/models"
 	"time"
+
+	"github.com/rinonkia/go_api_tutorial/app/models"
 )
 
 type Article struct {
