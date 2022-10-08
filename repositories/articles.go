@@ -52,7 +52,7 @@ func (r *ArticleRepository) UpdateNiceNum(ctx context.Context, articleID int) (*
 		return nil, err
 	}
 
-	article.Nice = article.Nice + 1
+	article.Nice++
 	_, err = article.Update(ctx, r.db, boil.Infer())
 	if err != nil {
 		return nil, err
