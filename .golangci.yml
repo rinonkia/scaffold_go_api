@@ -1,0 +1,11 @@
+run:
+  skip-dirs:
+    - app/models
+
+linters-settings:
+  funlen:
+    lines: 100
+    statements: 80
+
+linters:
+  enable-all: true
